@@ -21,6 +21,21 @@
     Notes: Input values have not been fully checked for values ranging far beyond
     reasonable values since it was not explicitly mentioned in the rubric.
 
+    TODO: Vehicle Virtual Destructor
+    TODO: Vehicle Abstract clone() function
+    TODO: Vehicle Abstract getType() function
+    TODO: Vehicle Abstract getRefuelTIme() function
+    TODO: Vehicle Virtual toString() function
+    TODO: Derived Class Car
+    TODO: Derived Class Suv
+    TODO: Derived Class Van
+    TODO: Derived Class Minivan
+    TODO: Derived Class Truck
+    TODO: Remove RefuelTime from WichitaToMonticell-Input.txt
+    TODO: Import vehicle list from WichitaToMonticello-Vehicles2.txt
+    TODO: Output to include vehicle type
+    TODO: Store results as sorted list in WichitaTOMonticello-Results2.txt
+
 ******************************************************************************/
 
 #include <string>
