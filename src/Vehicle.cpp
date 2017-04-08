@@ -50,6 +50,12 @@ int 	Vehicle::getCityMPG() 		{ return mCityMPG; }
 int 	Vehicle::getHighwayMPG() 	{ return mHighwayMPG; }
 double 	Vehicle::getCurrentFuel() 	{ return mCurrentFuel; }
 
+string Vehicle::toString() const
+{
+	return mMake + mModel + mEngine + mCylinderCnt +
+			mTankSize + mCityMPG + mHighwayMPG + mCurrentFuel;
+}
+
 double Vehicle::calcFuelConsumed(double miles, TripLeg::RoadType roadType)
 {
 	double mpg;

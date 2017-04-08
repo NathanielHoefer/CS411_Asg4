@@ -29,6 +29,7 @@ public:
 	Vehicle();
 	Vehicle(std::string make, std::string model, double engine, int cylinders,
 			double tankSize, int cityMPG, int highwayMPG);
+	virtual ~Vehicle();
 
 	// Accessors
 	std::string getMake();
@@ -39,6 +40,22 @@ public:
 	int 		getCityMPG();
 	int 		getHighwayMPG();
 	double 		getCurrentFuel();
+
+	// To return a clone of the derived vehicle
+	virtual Vehicle * clone() const = 0;
+
+	// To return a type of the derived vehicle
+	virtual std::string getType() const = 0;
+
+	// To return the refuel time of the derived vehicle
+	virtual double getRefuelTime() const = 0;
+
+	//	Returns a string containing the member data of the current vehicle separated
+	//		by the specified delimiter constant
+	//		Preconditions: None
+	//		Postconditions: None
+	//		Returns: String containing Vehicle info separated by DLMTR
+	virtual std::string toString() const;
 
 	//	Calculates the amount of fuel consumed after a number of miles
 	//		Preconditions: Entered miles is greater than 0
