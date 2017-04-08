@@ -16,7 +16,7 @@
     beginning of this file. The results are printed to the console as well as to
     the file specified by the string constant OUTPUT_FILE. Helper functions and
     Test drivers were moved to separate files in order to clean this file. The
-    vehicles are now stored as dynamic pointers in a vector
+    vehicles are now stored as dynamic pointers in a vector.
 
     Notes: Input values have not been fully checked for values ranging far beyond
     reasonable values since it was not explicitly mentioned in the rubric.
