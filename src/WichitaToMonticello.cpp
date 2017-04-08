@@ -3,7 +3,7 @@
 //==============================================================================
 /*
     File: WichitaToMonticello.cpp
-    Project: Assignment
+    Project: Assignment 4
     Author: Nathaniel Hoefer
     Student ID: X529U639
     Class: CS411 - Spring 2017
