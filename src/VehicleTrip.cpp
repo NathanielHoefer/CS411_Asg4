@@ -19,7 +19,7 @@ using vehicleTripNS::DLMTR;
 VehicleTrip::VehicleTrip(Vehicle *vehicle, TripParameters &parms)
 {
 	mParms = 		parms;
-	mVehicle = 		new Vehicle(*vehicle);
+	mVehicle = 		vehicle->clone();
 	mFuelPurchased = 0.0;
 	mFuelConsumed = 0.0;
 	mCityMiles = 	0;
@@ -32,7 +32,7 @@ VehicleTrip::VehicleTrip(Vehicle *vehicle, TripParameters &parms)
 VehicleTrip::VehicleTrip(VehicleTrip &trip)
 {
 	mParms = trip.mParms;
-	mVehicle = 		new Vehicle(*trip.mVehicle);
+	mVehicle = 		trip.mVehicle->clone();
 	mFuelPurchased = trip.mFuelPurchased;
 	mFuelConsumed = trip.mFuelConsumed;
 	mCityMiles = 	trip.mCityMiles;
@@ -157,7 +157,7 @@ VehicleTrip & VehicleTrip::operator =(const VehicleTrip &rhs)
 
 	// Checks to see if rhs vehicle exists
 	if (rhs.mVehicle) {
-		mVehicle = new Vehicle(*rhs.mVehicle);
+		mVehicle = rhs.mVehicle->clone();
 	} else {
 		mVehicle = rhs.mVehicle;
 	}

@@ -18,7 +18,7 @@
 #include <sstream>
 #include "TripLeg.hpp"
 
-namespace tripLegNS
+namespace vehicleNS
 {
 	static const std::string DLMTR = "|";
 }
@@ -29,7 +29,7 @@ public:
 	Vehicle();
 	Vehicle(std::string make, std::string model, double engine, int cylinders,
 			double tankSize, int cityMPG, int highwayMPG);
-	virtual ~Vehicle();
+	virtual ~Vehicle() {};
 
 	// Accessors
 	std::string getMake();
@@ -79,7 +79,7 @@ public:
 	//		Postconditions: None
 	void fillTank();
 
-	//	Overloaded << operater to stream out the following comma delineated:
+	//	Overloaded << operater to stream out the following delineated:
 	//		make << model << engineSize << engineCylinders << tanksize << cityMPG << highwayMPG << currentFuel
 	friend std::ostream & operator <<(std::ostream &lhs, const Vehicle &rhs);
 

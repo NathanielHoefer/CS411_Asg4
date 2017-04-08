@@ -46,6 +46,7 @@
 #include "VehicleTrip.hpp"
 #include "TripLeg.hpp"
 #include "Vehicle.hpp"
+#include "Car.hpp"
 #include "VehicleRecords.hpp"
 
 using namespace std;
@@ -66,72 +67,77 @@ static const string MAIN_DLMTR = "|";
 
 int main()
 {
-	cout << "========================================================" << endl;
-	cout << "           Wichita to Monticello - Assignment 3         " << endl;
-	cout << "========================================================" << endl;
 
-//	tripTesting();	// Used for running test cases
+	Car *c1 = new Car("Make", "Model", 4.0, 4, 5.0, 25, 30);
+	cout << c1->toString() << endl;
+	exit(0);
 
-	vector<Vehicle *> vehicles;
-	vector<TripLeg> tripLegs = initializeTripLegs();
-	TripParameters parms;
-
-	// Exits the program if vehicles or parameters are not properly imported
-	try {
-		vehicles = VehicleRecords::importVehicles(VEHICLE_FILE);
-		parms.retrieveParms(PARMS_FILE);
-	} catch (invalid_argument &e) {
-		cout << e.what() << endl;
-		cout << "ENDING PROGRAM" << endl;
-		exit(1);
-	} catch (exception &e) {
-		cout << e.what() << endl;
-		cout << "ENDING PROGRAM" << endl;
-		exit(1);
-	}
-
-	// Run initial trip and initialize output stream
-	VehicleTrip initialTrip(vehicles.at(0), parms);
-	initialTrip.runTrip(tripLegs);
-	ofstream outputStream(OUTPUT_FILE.c_str());
-	outputStream << "Make|Model|EngineSize|EngineCylinders|TankSize|MpgCity|MpgHighway|Time(minutes)|Time(d.hh:mm)";
-	outputStream << "|CostFueldAdded|CostFuelUsed|FuelAdded|FuelUsed|FuelRemaining|FuelStops" << endl;
-	printToFile(initialTrip, outputStream);
-	outputStream << endl;
-
-	// Initializes records
-	VehicleTrip shortestTime = 	initialTrip;
-	VehicleTrip longestTime = 	initialTrip;
-	VehicleTrip leastFuelAdded = initialTrip;
-	VehicleTrip mostFuelAdded = initialTrip;
-	VehicleTrip leastFuelUsed = initialTrip;
-	VehicleTrip mostFuelUsed = 	initialTrip;
-
-	// Process each vehicle trip
-	for (int i = 1; i < (int)vehicles.size(); i++) {
-		VehicleTrip trip(vehicles.at(i), parms);
-		trip.runTrip(tripLegs);
-		printToFile(trip, outputStream);
-		outputStream << endl;
-
-		// Updates records
-		if (trip.getTripTime() < shortestTime.getTripTime())
-			shortestTime = trip;
-		if (trip.getTripTime() > longestTime.getTripTime())
-			longestTime = trip;
-		if (trip.getFuelPurchased() < leastFuelAdded.getFuelPurchased())
-			leastFuelAdded = trip;
-		if (trip.getFuelPurchased() > mostFuelAdded.getFuelPurchased())
-			mostFuelAdded = trip;
-		if (trip.getFuelConsumed() < leastFuelUsed.getFuelConsumed())
-			leastFuelUsed = trip;
-		if (trip.getFuelConsumed() > mostFuelUsed.getFuelConsumed())
-			mostFuelUsed = trip;
-	}
-
-	// Print the formatted results
-	printResults(shortestTime, longestTime, leastFuelAdded, mostFuelAdded,
-			leastFuelUsed, mostFuelUsed, outputStream);
+//	cout << "========================================================" << endl;
+//	cout << "           Wichita to Monticello - Assignment 4         " << endl;
+//	cout << "========================================================" << endl;
+//
+////	tripTesting();	// Used for running test cases
+//
+//	vector<Vehicle *> vehicles;
+//	vector<TripLeg> tripLegs = initializeTripLegs();
+//	TripParameters parms;
+//
+//	// Exits the program if vehicles or parameters are not properly imported
+//	try {
+//		vehicles = VehicleRecords::importVehicles(VEHICLE_FILE);
+//		parms.retrieveParms(PARMS_FILE);
+//	} catch (invalid_argument &e) {
+//		cout << e.what() << endl;
+//		cout << "ENDING PROGRAM" << endl;
+//		exit(1);
+//	} catch (exception &e) {
+//		cout << e.what() << endl;
+//		cout << "ENDING PROGRAM" << endl;
+//		exit(1);
+//	}
+//
+//	// Run initial trip and initialize output stream
+//	VehicleTrip initialTrip(vehicles.at(0), parms);
+//	initialTrip.runTrip(tripLegs);
+//	ofstream outputStream(OUTPUT_FILE.c_str());
+//	outputStream << "Make|Model|EngineSize|EngineCylinders|TankSize|MpgCity|MpgHighway|Time(minutes)|Time(d.hh:mm)";
+//	outputStream << "|CostFueldAdded|CostFuelUsed|FuelAdded|FuelUsed|FuelRemaining|FuelStops" << endl;
+//	printToFile(initialTrip, outputStream);
+//	outputStream << endl;
+//
+//	// Initializes records
+//	VehicleTrip shortestTime = 	initialTrip;
+//	VehicleTrip longestTime = 	initialTrip;
+//	VehicleTrip leastFuelAdded = initialTrip;
+//	VehicleTrip mostFuelAdded = initialTrip;
+//	VehicleTrip leastFuelUsed = initialTrip;
+//	VehicleTrip mostFuelUsed = 	initialTrip;
+//
+//	// Process each vehicle trip
+//	for (int i = 1; i < (int)vehicles.size(); i++) {
+//		VehicleTrip trip(vehicles.at(i), parms);
+//		trip.runTrip(tripLegs);
+//		printToFile(trip, outputStream);
+//		outputStream << endl;
+//
+//		// Updates records
+//		if (trip.getTripTime() < shortestTime.getTripTime())
+//			shortestTime = trip;
+//		if (trip.getTripTime() > longestTime.getTripTime())
+//			longestTime = trip;
+//		if (trip.getFuelPurchased() < leastFuelAdded.getFuelPurchased())
+//			leastFuelAdded = trip;
+//		if (trip.getFuelPurchased() > mostFuelAdded.getFuelPurchased())
+//			mostFuelAdded = trip;
+//		if (trip.getFuelConsumed() < leastFuelUsed.getFuelConsumed())
+//			leastFuelUsed = trip;
+//		if (trip.getFuelConsumed() > mostFuelUsed.getFuelConsumed())
+//			mostFuelUsed = trip;
+//	}
+//
+//	// Print the formatted results
+//	printResults(shortestTime, longestTime, leastFuelAdded, mostFuelAdded,
+//			leastFuelUsed, mostFuelUsed, outputStream);
 }
 
 // Creates trip leg objects for the trip from Wichita to Monticello

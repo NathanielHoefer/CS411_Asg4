@@ -157,7 +157,7 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 				throw std::invalid_argument(exc);
 			}
 			highwayMPG = std::atoi(temp.c_str());
-			vehicles.push_back(new Vehicle(make, model, engine, cylinders, tankSize, cityMPG, highwayMPG));
+//			vehicles.push_back(new Vehicle(make, model, engine, cylinders, tankSize, cityMPG, highwayMPG));
 		}
 		lineNum++;
 	}

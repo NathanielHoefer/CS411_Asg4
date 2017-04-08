@@ -13,8 +13,9 @@
 
 #include "Vehicle.hpp"
 
-using tripLegNS::DLMTR;
+using vehicleNS::DLMTR;
 using std::string;
+using std::stringstream;
 
 Vehicle::Vehicle()
 {
@@ -52,8 +53,11 @@ double 	Vehicle::getCurrentFuel() 	{ return mCurrentFuel; }
 
 string Vehicle::toString() const
 {
-	return mMake + mModel + mEngine + mCylinderCnt +
-			mTankSize + mCityMPG + mHighwayMPG + mCurrentFuel;
+	stringstream ss;
+	ss.clear();
+	ss << mMake << DLMTR << mModel << DLMTR << mEngine << DLMTR << mCylinderCnt << DLMTR;
+	ss << mTankSize << DLMTR << mCityMPG << DLMTR << mHighwayMPG << DLMTR << mCurrentFuel;
+	return ss.str();
 }
 
 double Vehicle::calcFuelConsumed(double miles, TripLeg::RoadType roadType)
@@ -93,32 +97,6 @@ void Vehicle::fillTank()
 
 std::ostream & operator <<(std::ostream &lhs, const Vehicle &rhs)
 {
-	std::stringstream stream;
-
-	// Delineates data with commas
-	lhs << rhs.mMake + DLMTR;
-	lhs << rhs.mModel + DLMTR;
-	stream << rhs.mEngine;
-	lhs << stream.str() + DLMTR;
-	stream.str("");
-	stream.clear();
-	stream << rhs.mCylinderCnt;
-	lhs << stream.str() + DLMTR;
-	stream.str("");
-	stream.clear();
-	stream << rhs.mTankSize;
-	lhs << stream.str() + DLMTR;
-	stream.str("");
-	stream.clear();
-	stream << rhs.mCityMPG;
-	lhs << stream.str() + DLMTR;
-	stream.str("");
-	stream.clear();
-	stream << rhs.mHighwayMPG;
-	lhs << stream.str() + DLMTR;
-	stream.str("");
-	stream.clear();
-	stream << rhs.mCurrentFuel;
-	lhs << stream.str() + DLMTR;
+	lhs << rhs.toString();
 	return lhs;
 }
