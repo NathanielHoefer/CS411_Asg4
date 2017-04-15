@@ -7,7 +7,7 @@
     Author: Nathaniel Hoefer
     Student ID: X529U639
     Class: CS411 - Spring 2017
-	Date: 3/11/2017
+	Date: 4/15/2017
 
 ******************************************************************************/
 
@@ -24,7 +24,6 @@ static const int 	CITY_MPH = 		25;
 static const int 	HIGHWAY_MPH = 	70;
 static const double FUEL_PRICE = 	2.19;	// Per gallon
 static const double GAS_DISTANCE = 	80.0;	// Distance between gas stations
-static const int 	REFUEL_TIME = 	20;		// in minutes
 static const int 	RESTROOM_TIME = 10;		// in minutes
 static const int 	NAP_TIME = 		15;		// in minutes
 static const int 	AWAKE_TIME = 	8;		// in hours
@@ -35,7 +34,6 @@ static const std::string HIGHWAY_MPH_LABEL = 	"MphHighway";
 static const std::string FUEL_PRICE_LABEL = 	"FuelPrice";
 static const std::string GAS_DISTANCE_LABEL = 	"DistanceBetweenGasStations";
 static const std::string AWAKE_TIME_LABEL = 	"TimeBetweenNaps";
-static const std::string REFUEL_TIME_LABEL = 	"RefuelTime";
 static const std::string RESTROOM_TIME_LABEL = 	"RestroomTime";
 static const std::string NAP_TIME_LABEL = 		"NapTime";
 
@@ -43,14 +41,13 @@ class TripParameters
 {
 public:
 	TripParameters();
-	TripParameters(int cityMPH, int highwayMPH, double fuelPrice, int refuelTime,
-			int restroomTimeMins, int napTimeMins, int awakeTimeHrs, double gasDistance);
+	TripParameters(int cityMPH, int highwayMPH, double fuelPrice, int restroomTimeMins,
+			int napTimeMins, int awakeTimeHrs, double gasDistance);
 
 	// Accessor Methods
 	int 	getCityMph() const;
 	int 	getHighwayMph() const;
 	double 	getFuelPrice() const;
-	int 	getRefuelTime() const;
 	int 	getRestroomTime() const;
 	int 	getNapTime() const;
 	int 	getAwakeTime() const;
@@ -60,7 +57,6 @@ public:
 	void 	setCityMph(int cityMph);
 	void 	setHighwayMph(int highwayMph);
 	void 	setFuelPrice(double fuelPrice);
-	void 	setRefuelTime(int refuelTime);
 	void 	setRestroomTime(int restroomTime);
 	void 	setNapTime(int napTime);
 	void 	setAwakeTime(int awakeTime);
@@ -78,7 +74,6 @@ private:
 	int mCityMPH;
 	int mHighwayMPH;
 	double mFuelPrice;
-	int mRefuelTimeMins;		// in minutes
 	int mRestroomTimeMins;		// in minutes
 	int mNapTimeMins;			// in minutes
 	int mAwakeTimeMins;			// in minutes

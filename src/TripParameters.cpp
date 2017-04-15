@@ -63,20 +63,18 @@ TripParameters::TripParameters()
 	mCityMPH = 			CITY_MPH;
 	mHighwayMPH = 		HIGHWAY_MPH;
 	mFuelPrice = 		FUEL_PRICE;
-	mRefuelTimeMins = 	REFUEL_TIME;
 	mRestroomTimeMins = RESTROOM_TIME;
 	mNapTimeMins = 		NAP_TIME;
 	mAwakeTimeMins = 	AWAKE_TIME * 60;
 	mGasDistance = 		GAS_DISTANCE;
 }
 
-TripParameters::TripParameters(int cityMPH, int highwayMPH, double fuelPrice, int refuelTime,
-		int restroomTimeMins, int napTimeMins, int awakeTimeHrs, double gasDistance)
+TripParameters::TripParameters(int cityMPH, int highwayMPH, double fuelPrice, int restroomTimeMins,
+		int napTimeMins, int awakeTimeHrs, double gasDistance)
 {
 	mCityMPH = 			cityMPH;
 	mHighwayMPH = 		highwayMPH;
 	mFuelPrice = 		fuelPrice;
-	mRefuelTimeMins = 	refuelTime;
 	mRestroomTimeMins = restroomTimeMins;
 	mNapTimeMins = 		napTimeMins;
 	mAwakeTimeMins = 	awakeTimeHrs * 60;
@@ -86,7 +84,6 @@ TripParameters::TripParameters(int cityMPH, int highwayMPH, double fuelPrice, in
 int 	TripParameters::getCityMph() 		const { return mCityMPH; }
 int 	TripParameters::getHighwayMph() 	const { return mHighwayMPH; }
 double 	TripParameters::getFuelPrice() 		const { return mFuelPrice; }
-int 	TripParameters::getRefuelTime() 	const { return mRefuelTimeMins; }
 int 	TripParameters::getRestroomTime() 	const { return mRestroomTimeMins; }
 int 	TripParameters::getNapTime() 		const { return mNapTimeMins; }
 int 	TripParameters::getAwakeTime() 		const { return mAwakeTimeMins; }
@@ -95,7 +92,6 @@ double 	TripParameters::getGasDistance() 	const { return mGasDistance; }
 void 	TripParameters::setCityMph(int cityMph) 			{ mCityMPH = cityMph; }
 void 	TripParameters::setHighwayMph(int highwayMph) 		{ mHighwayMPH = highwayMph; }
 void 	TripParameters::setFuelPrice(double fuelPrice) 		{ mFuelPrice = fuelPrice; }
-void 	TripParameters::setRefuelTime(int refuelTime) 		{ mRefuelTimeMins = refuelTime; }
 void 	TripParameters::setRestroomTime(int restroomTime) 	{ mRestroomTimeMins = restroomTime; }
 void 	TripParameters::setNapTime(int napTime) 			{ mNapTimeMins = napTime; }
 void 	TripParameters::setAwakeTime(int awakeTime) 		{ mAwakeTimeMins = awakeTime; }
@@ -156,8 +152,6 @@ void TripParameters::retrieveParms(std::string file) throw (std::invalid_argumen
 				mGasDistance = value;
 			} else if (line == AWAKE_TIME_LABEL) {
 				mAwakeTimeMins = (int) value * 60;
-			} else if (line == REFUEL_TIME_LABEL) {
-				mRefuelTimeMins = (int) value;
 			} else if (line == RESTROOM_TIME_LABEL) {
 				mRestroomTimeMins = (int) value;
 			} else if (line == NAP_TIME_LABEL) {
