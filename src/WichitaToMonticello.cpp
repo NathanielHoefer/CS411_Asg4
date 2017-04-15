@@ -49,6 +49,9 @@
 #include "Vehicle.hpp"
 #include "Car.hpp"
 #include "Suv.hpp"
+#include "Van.hpp"
+#include "Minivan.hpp"
+#include "Truck.hpp"
 #include "VehicleRecords.hpp"
 
 using namespace std;
@@ -73,9 +76,13 @@ int main()
 	vector<Vehicle *> vehicles;
 	vehicles.push_back(new Car("Make0", "Model0", 4.0, 4, 5.0, 25, 30));
 	vehicles.push_back(new Suv("Make1", "Model1", 4.1, 4, 5.1, 26, 31));
+	vehicles.push_back(new Van("Make2", "Model2", 4.2, 4, 5.2, 27, 32));
+	vehicles.push_back(new Minivan("Make3", "Model3", 4.3, 4, 5.3, 28, 33));
+	vehicles.push_back(new Truck("Make4", "Model4", 4.4, 4, 5.4, 29, 34));
+	vehicles.push_back(vehicles[2]->clone());
 
 	for (int i = 0; i < (int) vehicles.size(); i++) {
-		cout << vehicles[i]->toString() << endl;
+		cout << vehicles[i]->toString() << " " << vehicles[i]->getRefuelTime() << " " << vehicles[i]->getType() << endl;
 	}
 	exit(0);
 
