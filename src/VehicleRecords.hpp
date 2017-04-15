@@ -7,7 +7,7 @@
     Author: Nathaniel Hoefer
     Student ID: X529U639
     Class: CS411 - Spring 2017
-	Date: 4/2/2017
+	Date: 4/15/2017
 
 ******************************************************************************/
 
@@ -20,12 +20,6 @@
 #include <cstdlib>
 #include <stdexcept>
 #include "Vehicle.hpp"
-
-namespace vehicleRecordsNS
-{
-	static const std::string DLMTR = "|";
-}
-
 
 class VehicleRecords
 {

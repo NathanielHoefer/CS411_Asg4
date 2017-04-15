@@ -7,16 +7,23 @@
     Author: Nathaniel Hoefer
     Student ID: X529U639
     Class: CS411 - Spring 2017
-	Date: 4/2/2017
+	Date: 4/15/2017
 
 ******************************************************************************/
 
 #include "VehicleRecords.hpp"
 
-using vehicleRecordsNS::DLMTR;
+using vehicleNS::DLMTR;
 
 namespace
 {
+	// Vehicle Type Constants
+	static const std::string CAR_TYPE = "Car";
+	static const std::string SUV_TYPE = "Suv";
+	static const std::string VAN_TYPE = "Van";
+	static const std::string MINIVAN_TYPE = "Minivan";
+	static const std::string TRUCK_TYPE = "Truck";
+
 	// Parses the input string based on the delimiter given and the element requested.
 	//	Preconditions: Elements begin with zero and if exceeds the number of elements within
 	//		the string, it will loop around.
@@ -89,7 +96,7 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 	}
 
 	std::string line = "";
-	std::string make, model, temp;
+	std::string type, make, model, temp;
 	double engine, tankSize;
 	int cylinders, cityMPG, highwayMPG;
 	std::vector<Vehicle *> vehicles;
@@ -104,6 +111,10 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 
 		// Check to see if it is a comment line
 		if (line[0] != '#' && !line.empty()) {
+
+			// Parse vehicle type
+			type = parseLine(line, 0, DLMTR[0]);
+			type = trimString(type);
 
 			// Parse vehicle make
 			make = parseLine(line, 0, DLMTR[0]);
@@ -157,7 +168,19 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 				throw std::invalid_argument(exc);
 			}
 			highwayMPG = std::atoi(temp.c_str());
-//			vehicles.push_back(new Vehicle(make, model, engine, cylinders, tankSize, cityMPG, highwayMPG));
+
+			// Creates the vehicles based on type
+			if (type == CAR_TYPE) {
+				vehicles.push_back(new Car(make, model, engine, cylinders, tankSize, cityMPG, highwayMPG));
+			} else if (type == SUV_TYPE) {
+				vehicles.push_back(new Suv(make, model, engine, cylinders, tankSize, cityMPG, highwayMPG));
+			} else if (type == VAN_TYPE) {
+				vehicles.push_back(new Van(make, model, engine, cylinders, tankSize, cityMPG, highwayMPG));
+			} else if (type == MINIVAN_TYPE) {
+				vehicles.push_back(new Minivan(make, model, engine, cylinders, tankSize, cityMPG, highwayMPG));
+			} else if (type == TRUCK_TYPE) {
+				vehicles.push_back(new Truck(make, model, engine, cylinders, tankSize, cityMPG, highwayMPG));
+			}
 		}
 		lineNum++;
 	}
