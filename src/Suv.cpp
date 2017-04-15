@@ -1,8 +1,8 @@
 //==============================================================================
-// Assignment 4 - Car Class
+// Assignment 4 - Suv Class
 //==============================================================================
 /*
-	File: Car.cpp
+	File: Suv.cpp
     Project: Assignment 4
     Author: Nathaniel Hoefer
     Student ID: X529U639
@@ -11,46 +11,46 @@
 
 ******************************************************************************/
 
-#include "Car.hpp"
+#include "Suv.hpp"
 
 using std::string;
 using std::ostream;
 
 namespace
 {
-	static const std::string VEHICLE_TYPE = "Car";
-	static const double REFUEL_TIME = 8.0;
+	static const std::string VEHICLE_TYPE = "Suv";
+	static const double REFUEL_TIME = 10.0;
 }
 
-Car::Car() : Vehicle()
+Suv::Suv() : Vehicle()
 {
 	// Intentionally left blank
 }
 
-Car::Car(std::string make, std::string model, double engine, int cylinders,
+Suv::Suv(std::string make, std::string model, double engine, int cylinders,
 		double tankSize, int cityMPG, int highwayMPG) :
 		Vehicle(make, model, engine, cylinders, tankSize, cityMPG, highwayMPG)
 {
 	// Intentionally left blank
 }
 
-Vehicle * Car::clone() const
+Vehicle * Suv::clone() const
 {
-	Car *temp = new Car(*this);
+	Suv *temp = new Suv(*this);
 	return temp;
 }
 
-string Car::getType() const
+string Suv::getType() const
 {
 	return VEHICLE_TYPE;
 }
 
-double Car::getRefuelTime() const
+double Suv::getRefuelTime() const
 {
 	return REFUEL_TIME;
 }
 
-string Car::toString() const
+string Suv::toString() const
 {
 	return getType() + vehicleNS::DLMTR + Vehicle::toString();
 }

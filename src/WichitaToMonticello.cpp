@@ -35,6 +35,7 @@
     TODO: Import vehicle list from WichitaToMonticello-Vehicles2.txt
     TODO: Output to include vehicle type
     TODO: Store results as sorted list in WichitaTOMonticello-Results2.txt
+    TODO: Reconfigure the printing to screen method as discussed with Dr. Schobe
 
 ******************************************************************************/
 
@@ -47,6 +48,7 @@
 #include "TripLeg.hpp"
 #include "Vehicle.hpp"
 #include "Car.hpp"
+#include "Suv.hpp"
 #include "VehicleRecords.hpp"
 
 using namespace std;
@@ -68,8 +70,13 @@ static const string MAIN_DLMTR = "|";
 int main()
 {
 
-	Car *c1 = new Car("Make", "Model", 4.0, 4, 5.0, 25, 30);
-	cout << c1->toString() << endl;
+	vector<Vehicle *> vehicles;
+	vehicles.push_back(new Car("Make0", "Model0", 4.0, 4, 5.0, 25, 30));
+	vehicles.push_back(new Suv("Make1", "Model1", 4.1, 4, 5.1, 26, 31));
+
+	for (int i = 0; i < (int) vehicles.size(); i++) {
+		cout << vehicles[i]->toString() << endl;
+	}
 	exit(0);
 
 //	cout << "========================================================" << endl;
