@@ -18,7 +18,7 @@ using std::ostream;
 
 namespace
 {
-	static const std::string VEHICLE_TYPE = "Suv";
+	static const std::string VEHICLE_TYPE = "SUV";
 	static const double REFUEL_TIME = 10.0;
 }
 

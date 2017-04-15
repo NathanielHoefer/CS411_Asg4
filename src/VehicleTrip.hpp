@@ -17,14 +17,11 @@
 #include <vector>
 #include <math.h>
 #include <sstream>
+#include <iostream>
+#include <iomanip>
 #include "TripLeg.hpp"
 #include "Vehicle.hpp"
 #include "TripParameters.hpp"
-
-namespace vehicleTripNS
-{
-	static const std::string DLMTR = "|";
-}
 
 class VehicleTrip
 {
@@ -49,6 +46,11 @@ public:
 	//		Preconditions: None
 	//		Postconditions: Member variables are updated per calculations
 	void runTrip(std::vector<TripLeg> &legs);
+
+	//	Prints the formatted results of the vehicle trip to the stream
+	//		Preconditions: Vehicle Trip must be run
+	//		Postconditions: None
+	void printTripToStream(std::ostream & stream) const;
 
 	// 	Overloaded assignment operator to properly handle the pointers
 	VehicleTrip & operator =(const VehicleTrip &rhs);

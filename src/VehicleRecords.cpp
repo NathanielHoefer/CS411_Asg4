@@ -112,20 +112,23 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 		// Check to see if it is a comment line
 		if (line[0] != '#' && !line.empty()) {
 
+			// Element within vehicle records line
+			int element = 0;
+
 			// Parse vehicle type
-			type = parseLine(line, 0, DLMTR[0]);
+			type = parseLine(line, element++, DLMTR[0]);
 			type = trimString(type);
 
 			// Parse vehicle make
-			make = parseLine(line, 0, DLMTR[0]);
+			make = parseLine(line, element++, DLMTR[0]);
 			make = trimString(make);
 
 			// Parse vehicle model
-			model = parseLine(line, 1, DLMTR[0]);
+			model = parseLine(line, element++, DLMTR[0]);
 			model = trimString(model);
 
 			// Parse vehicle engine
-			temp = parseLine(line, 2, DLMTR[0]);
+			temp = parseLine(line, element++, DLMTR[0]);
 			temp = trimString(temp);
 			if (!isDigits(temp)) {
 				std::string exc = "ERROR - Vehicle Import: Invalid Engine Type [" + toString(lineNum) + "]: \"" + temp + "\"";
@@ -134,7 +137,7 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 			engine = std::atof(temp.c_str());
 
 			// Parse vehicle cylinder count
-			temp = parseLine(line, 3, DLMTR[0]);
+			temp = parseLine(line, element++, DLMTR[0]);
 			temp = trimString(temp);
 			if (!isDigits(temp)) {
 				std::string exc = "ERROR - Vehicle Import: Invalid Cylinder Count [" + toString(lineNum) + "]: \"" + temp + "\"";
@@ -143,7 +146,7 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 			cylinders = std::atoi(temp.c_str());
 
 			// Parse vehicle tank size
-			temp = parseLine(line, 4, DLMTR[0]);
+			temp = parseLine(line, element++, DLMTR[0]);
 			temp = trimString(temp);
 			if (!isDigits(temp)) {
 				std::string exc = "ERROR - Vehicle Import: Invalid Tank Size [" + toString(lineNum) + "]: \"" + temp + "\"";
@@ -152,7 +155,7 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 			tankSize = std::atof(temp.c_str());
 
 			// Parse vehicle city MPG
-			temp = parseLine(line, 5, DLMTR[0]);
+			temp = parseLine(line, element++, DLMTR[0]);
 			temp = trimString(temp);
 			if (!isDigits(temp)) {
 				std::string exc = "ERROR - Vehicle Import: Invalid City MPG [" + toString(lineNum) + "]: \"" + temp + "\"";
@@ -161,7 +164,7 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 			cityMPG = std::atoi(temp.c_str());
 
 			// Parse vehicle highway MPG
-			temp = parseLine(line, 6, DLMTR[0]);
+			temp = parseLine(line, element++, DLMTR[0]);
 			temp = trimString(temp);
 			if (!isDigits(temp)) {
 				std::string exc = "ERROR - Vehicle Import: Invalid Highway MPG [" + toString(lineNum) + "]: \"" + temp + "\"";
@@ -190,4 +193,3 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 	}
 	return vehicles;
 }
-

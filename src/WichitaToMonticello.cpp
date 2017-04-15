@@ -32,7 +32,7 @@
     DONE: Derived Class Minivan
     DONE: Derived Class Truck
     DONE: Remove RefuelTime from WichitaToMonticell-Input.txt
-    TODO: Import vehicle list from WichitaToMonticello-Vehicles2.txt
+    DONE: Import vehicle list from WichitaToMonticello-Vehicles2.txt
     TODO: Output to include vehicle type
     TODO: Store results as sorted list in WichitaTOMonticello-Results2.txt
     TODO: Reconfigure the printing to screen method as discussed with Dr. Schobe
@@ -46,7 +46,6 @@
 #include <vector>
 #include "VehicleTrip.hpp"
 #include "TripLeg.hpp"
-#include "Vehicle.hpp"
 #include "Car.hpp"
 #include "Suv.hpp"
 #include "Van.hpp"
@@ -65,7 +64,7 @@ void printVehicleStats(VehicleTrip trip);
 void printToFile(VehicleTrip trip, ofstream &output);
 
 // File name constants
-static const string VEHICLE_FILE = "WichitaToMonticello-Vehicles.txt";
+static const string VEHICLE_FILE = "WichitaToMonticello-Vehicles2.txt";
 static const string PARMS_FILE = "WichitaToMonticello-Input.ini";
 static const string OUTPUT_FILE = "WichitaToMonticello-Results.txt";
 static const string MAIN_DLMTR = "|";
@@ -73,85 +72,85 @@ static const string MAIN_DLMTR = "|";
 int main()
 {
 
-	vector<Vehicle *> vehicles;
-	vehicles.push_back(new Car("Make0", "Model0", 4.0, 4, 5.0, 25, 30));
-	vehicles.push_back(new Suv("Make1", "Model1", 4.1, 4, 5.1, 26, 31));
-	vehicles.push_back(new Van("Make2", "Model2", 4.2, 4, 5.2, 27, 32));
-	vehicles.push_back(new Minivan("Make3", "Model3", 4.3, 4, 5.3, 28, 33));
-	vehicles.push_back(new Truck("Make4", "Model4", 4.4, 4, 5.4, 29, 34));
-	vehicles.push_back(vehicles[2]->clone());
-
-	for (int i = 0; i < (int) vehicles.size(); i++) {
-		cout << vehicles[i]->toString() << " " << vehicles[i]->getRefuelTime() << " " << vehicles[i]->getType() << endl;
-	}
-	exit(0);
-
-//	cout << "========================================================" << endl;
-//	cout << "           Wichita to Monticello - Assignment 4         " << endl;
-//	cout << "========================================================" << endl;
-//
-////	tripTesting();	// Used for running test cases
-//
 //	vector<Vehicle *> vehicles;
-//	vector<TripLeg> tripLegs = initializeTripLegs();
-//	TripParameters parms;
+//	vehicles.push_back(new Car("Make0", "Model0", 4.0, 4, 5.0, 25, 30));
+//	vehicles.push_back(new Suv("Make1", "Model1", 4.1, 4, 5.1, 26, 31));
+//	vehicles.push_back(new Van("Make2", "Model2", 4.2, 4, 5.2, 27, 32));
+//	vehicles.push_back(new Minivan("Make3", "Model3", 4.3, 4, 5.3, 28, 33));
+//	vehicles.push_back(new Truck("Make4", "Model4", 4.4, 4, 5.4, 29, 34));
+//	vehicles.push_back(vehicles[2]->clone());
 //
-//	// Exits the program if vehicles or parameters are not properly imported
-//	try {
-//		vehicles = VehicleRecords::importVehicles(VEHICLE_FILE);
-//		parms.retrieveParms(PARMS_FILE);
-//	} catch (invalid_argument &e) {
-//		cout << e.what() << endl;
-//		cout << "ENDING PROGRAM" << endl;
-//		exit(1);
-//	} catch (exception &e) {
-//		cout << e.what() << endl;
-//		cout << "ENDING PROGRAM" << endl;
-//		exit(1);
+//	for (int i = 0; i < (int) vehicles.size(); i++) {
+//		cout << vehicles[i]->toString() << " " << vehicles[i]->getRefuelTime() << " " << vehicles[i]->getType() << endl;
 //	}
-//
-//	// Run initial trip and initialize output stream
-//	VehicleTrip initialTrip(vehicles.at(0), parms);
-//	initialTrip.runTrip(tripLegs);
-//	ofstream outputStream(OUTPUT_FILE.c_str());
-//	outputStream << "Make|Model|EngineSize|EngineCylinders|TankSize|MpgCity|MpgHighway|Time(minutes)|Time(d.hh:mm)";
-//	outputStream << "|CostFueldAdded|CostFuelUsed|FuelAdded|FuelUsed|FuelRemaining|FuelStops" << endl;
-//	printToFile(initialTrip, outputStream);
-//	outputStream << endl;
-//
-//	// Initializes records
-//	VehicleTrip shortestTime = 	initialTrip;
-//	VehicleTrip longestTime = 	initialTrip;
-//	VehicleTrip leastFuelAdded = initialTrip;
-//	VehicleTrip mostFuelAdded = initialTrip;
-//	VehicleTrip leastFuelUsed = initialTrip;
-//	VehicleTrip mostFuelUsed = 	initialTrip;
-//
-//	// Process each vehicle trip
-//	for (int i = 1; i < (int)vehicles.size(); i++) {
-//		VehicleTrip trip(vehicles.at(i), parms);
-//		trip.runTrip(tripLegs);
-//		printToFile(trip, outputStream);
-//		outputStream << endl;
-//
-//		// Updates records
-//		if (trip.getTripTime() < shortestTime.getTripTime())
-//			shortestTime = trip;
-//		if (trip.getTripTime() > longestTime.getTripTime())
-//			longestTime = trip;
-//		if (trip.getFuelPurchased() < leastFuelAdded.getFuelPurchased())
-//			leastFuelAdded = trip;
-//		if (trip.getFuelPurchased() > mostFuelAdded.getFuelPurchased())
-//			mostFuelAdded = trip;
-//		if (trip.getFuelConsumed() < leastFuelUsed.getFuelConsumed())
-//			leastFuelUsed = trip;
-//		if (trip.getFuelConsumed() > mostFuelUsed.getFuelConsumed())
-//			mostFuelUsed = trip;
-//	}
-//
-//	// Print the formatted results
-//	printResults(shortestTime, longestTime, leastFuelAdded, mostFuelAdded,
-//			leastFuelUsed, mostFuelUsed, outputStream);
+//	exit(0);
+
+	cout << "========================================================" << endl;
+	cout << "           Wichita to Monticello - Assignment 4         " << endl;
+	cout << "========================================================" << endl;
+
+//	tripTesting();	// Used for running test cases
+
+	vector<Vehicle *> vehicles;
+	vector<TripLeg> tripLegs = initializeTripLegs();
+	TripParameters parms;
+
+	// Exits the program if vehicles or parameters are not properly imported
+	try {
+		vehicles = VehicleRecords::importVehicles(VEHICLE_FILE);
+		parms.retrieveParms(PARMS_FILE);
+	} catch (invalid_argument &e) {
+		cout << e.what() << endl;
+		cout << "ENDING PROGRAM" << endl;
+		exit(1);
+	} catch (exception &e) {
+		cout << e.what() << endl;
+		cout << "ENDING PROGRAM" << endl;
+		exit(1);
+	}
+
+	// Run initial trip and initialize output stream
+	VehicleTrip initialTrip(vehicles.at(0), parms);
+	initialTrip.runTrip(tripLegs);
+	ofstream outputStream(OUTPUT_FILE.c_str());
+	outputStream << "Make|Model|EngineSize|EngineCylinders|TankSize|MpgCity|MpgHighway|Time(minutes)|Time(d.hh:mm)";
+	outputStream << "|CostFueldAdded|CostFuelUsed|FuelAdded|FuelUsed|FuelRemaining|FuelStops" << endl;
+	printToFile(initialTrip, outputStream);
+	outputStream << endl;
+
+	// Initializes records
+	VehicleTrip shortestTime = 	initialTrip;
+	VehicleTrip longestTime = 	initialTrip;
+	VehicleTrip leastFuelAdded = initialTrip;
+	VehicleTrip mostFuelAdded = initialTrip;
+	VehicleTrip leastFuelUsed = initialTrip;
+	VehicleTrip mostFuelUsed = 	initialTrip;
+
+	// Process each vehicle trip
+	for (int i = 1; i < (int)vehicles.size(); i++) {
+		VehicleTrip trip(vehicles.at(i), parms);
+		trip.runTrip(tripLegs);
+		printToFile(trip, outputStream);
+		outputStream << endl;
+
+		// Updates records
+		if (trip.getTripTime() < shortestTime.getTripTime())
+			shortestTime = trip;
+		if (trip.getTripTime() > longestTime.getTripTime())
+			longestTime = trip;
+		if (trip.getFuelPurchased() < leastFuelAdded.getFuelPurchased())
+			leastFuelAdded = trip;
+		if (trip.getFuelPurchased() > mostFuelAdded.getFuelPurchased())
+			mostFuelAdded = trip;
+		if (trip.getFuelConsumed() < leastFuelUsed.getFuelConsumed())
+			leastFuelUsed = trip;
+		if (trip.getFuelConsumed() > mostFuelUsed.getFuelConsumed())
+			mostFuelUsed = trip;
+	}
+
+	// Print the formatted results
+	printResults(shortestTime, longestTime, leastFuelAdded, mostFuelAdded,
+			leastFuelUsed, mostFuelUsed, outputStream);
 }
 
 // Creates trip leg objects for the trip from Wichita to Monticello
@@ -218,7 +217,7 @@ void printResults(VehicleTrip shortestTime, VehicleTrip longestTime,
 	cout << "========================================================" << endl;
 	cout << "   1. Vehicle ariving first at Jefferson's Monticello:  " << endl;
 	cout << "========================================================" << endl;
-	printVehicleStats(shortestTime);
+	shortestTime.printTripToStream(cout);
 	output << endl;
 	printToFile(shortestTime, output);
 	output << "  # Vehicle arriving first" << endl;
@@ -226,7 +225,7 @@ void printResults(VehicleTrip shortestTime, VehicleTrip longestTime,
 	cout << "========================================================" << endl;
 	cout << "   2. Vehicle arriving last at Jefferson's Monticello:  " << endl;
 	cout << "========================================================" << endl;
-	printVehicleStats(longestTime);
+	longestTime.printTripToStream(cout);
 	printToFile(longestTime, output);
 	output << "  # Vehicle arriving last" << endl;
 
@@ -234,7 +233,7 @@ void printResults(VehicleTrip shortestTime, VehicleTrip longestTime,
 	cout << "   3. Vehicle costing the least to reach Jefferson's    " << endl;
 	cout << "        Monticello based on fuel added to tank:         " << endl;
 	cout << "========================================================" << endl;
-	printVehicleStats(leastFuelAdded);
+	leastFuelAdded.printTripToStream(cout);
 	printToFile(leastFuelAdded, output);
 	output << "  # Vehicle costing least (fuel added)" << endl;
 
@@ -242,7 +241,7 @@ void printResults(VehicleTrip shortestTime, VehicleTrip longestTime,
 	cout << "   4. Vehicle costing the most to reach Jefferson's     " << endl;
 	cout << "        Monticello based on fuel added to tank:         " << endl;
 	cout << "========================================================" << endl;
-	printVehicleStats(mostFuelAdded);
+	mostFuelAdded.printTripToStream(cout);
 	printToFile(mostFuelAdded, output);
 	output << "  # Vehicle costing most (fuel added)" << endl;
 
@@ -250,7 +249,7 @@ void printResults(VehicleTrip shortestTime, VehicleTrip longestTime,
 	cout << "   5. Vehicle costing the least to reach Jefferson's    " << endl;
 	cout << "         Monticello based on actual fuel used:          " << endl;
 	cout << "========================================================" << endl;
-	printVehicleStats(leastFuelUsed);
+	leastFuelUsed.printTripToStream(cout);
 	printToFile(leastFuelUsed, output);
 	output << "  # Vehicle costing least (fuel used)" << endl;
 
@@ -258,7 +257,7 @@ void printResults(VehicleTrip shortestTime, VehicleTrip longestTime,
 	cout << "   6. Vehicle costing the most to reach Jefferson's     " << endl;
 	cout << "         Monticello based on actual fuel used:          " << endl;
 	cout << "========================================================" << endl;
-	printVehicleStats(mostFuelUsed);
+	mostFuelUsed.printTripToStream(cout);
 	printToFile(mostFuelUsed, output);
 	output << "  # Vehicle costing most (fuel used)" << endl;
 }

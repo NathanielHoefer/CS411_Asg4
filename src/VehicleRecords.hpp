@@ -19,7 +19,11 @@
 #include <fstream>
 #include <cstdlib>
 #include <stdexcept>
-#include "Vehicle.hpp"
+#include "Car.hpp"
+#include "Suv.hpp"
+#include "Van.hpp"
+#include "Minivan.hpp"
+#include "Truck.hpp"
 
 class VehicleRecords
 {

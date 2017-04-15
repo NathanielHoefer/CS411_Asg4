@@ -14,7 +14,15 @@
 #include "VehicleTrip.hpp"
 
 using std::string;
-using vehicleTripNS::DLMTR;
+using std::cout;
+using std::endl;
+using std::setw;
+using std::left;
+using std::right;
+using std::fixed;
+using std::setprecision;
+using std::setfill;
+using vehicleNS::DLMTR;
 
 VehicleTrip::VehicleTrip(Vehicle *vehicle, TripParameters &parms)
 {
@@ -143,6 +151,59 @@ void VehicleTrip::runTrip(std::vector<TripLeg> &legs)
 	mTripTime = round(mDriveTime) + refuelTime + restroomTime + sleepTime;
 }
 
+void VehicleTrip::printTripToStream(std::ostream & stream) const
+{
+	string type, make, model;
+	int cityMPG, highwayMPG;
+	double tankSize, currentFuel;
+
+	type = mVehicle->getType() + ": ";
+	make = mVehicle->getMake();
+	model = mVehicle->getModel();
+	tankSize = mVehicle->getTankSize();
+	cityMPG = mVehicle->getCityMPG();
+	highwayMPG = mVehicle->getHighwayMPG();
+	currentFuel = mVehicle->getCurrentFuel();
+
+	// Calculations for centering title
+	int titleLen = type.size() + make.size() + model.size() + 1;
+	int leftTitleSpace = (56 - titleLen) / 2;
+
+	// Calculations for formatted time
+	int days, hours, minutes, remainingTime;
+	remainingTime = mTripTime;
+	days = mTripTime / (24 * 60);
+	remainingTime = mTripTime % (24 * 60);
+	hours = remainingTime / 60;
+	minutes = remainingTime % 60;
+
+	double fuelAddedCost = mFuelPurchased * mParms.getFuelPrice();
+	double fuelConsumedCost = mFuelConsumed * mParms.getFuelPrice();
+
+	// Formats output
+	cout << setw(leftTitleSpace) << "";
+	cout << type << make << " " << model << endl;
+	cout << "--------------------------------------------------------" << endl;
+	cout << left << fixed << setprecision(2);
+	cout << "Tank Size = " << setw(6) << tankSize;
+	cout << "gal   City MPG = " << setw(5) << cityMPG;
+	cout << "Highway MPG = " << highwayMPG << endl;;
+	cout << "--------------------------------------------------------" << endl;
+	cout << "Trip time(minutes) = " << setw(7) << mTripTime;
+	cout << "Trip time(d.hh:mm) = " << days << "." << setfill('0') << right
+			<< setw(2) << hours << ":" << setw(2) << minutes << endl;
+	cout << "--------------------------------------------------------" << endl;
+	cout << left << setfill(' ');
+	cout << "Trip cost based on fuel added = $" << fuelAddedCost << endl;
+	cout << "Trip cost based on fuel used  = $" << fuelConsumedCost << endl;
+	cout << "--------------------------------------------------------" << endl;
+	cout << "Fuel added = " << setw(8) << setprecision(4) << mFuelPurchased
+			<< "gal    Fuel remaining = " << currentFuel << " gal" << endl;
+	cout << "Fuel used  = " << setw(8) << mFuelConsumed;
+	cout << "gal    Fuel stops     = " << mGStationCnt << endl << endl << endl;
+}
+
+
 VehicleTrip & VehicleTrip::operator =(const VehicleTrip &rhs)
 {
 	// Checks whether the rhs is the same as this
@@ -211,7 +272,7 @@ double VehicleTrip::calcDriveTime(double miles, TripLeg::RoadType roadType)
 
 double VehicleTrip::calcRefuelTime()
 {
-	return mGStationCnt * mParms.getRefuelTime();
+	return mGStationCnt * mVehicle->getRefuelTime();
 }
 
 double VehicleTrip::calcRestroomTime()
