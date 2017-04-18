@@ -22,7 +22,7 @@ class Minivan : public Vehicle
 {
 public:
 	Minivan();
-	Minivan(std::string make, std::string model, double engine, int cylinders,
+	Minivan(const std::string make, const std::string model, double engine, int cylinders,
 			double tankSize, int cityMPG, int highwayMPG);
 
 	//	Copies the Minivan and returns a dynamic pointer to the clone

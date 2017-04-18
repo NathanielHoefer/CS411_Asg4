@@ -27,7 +27,7 @@ Minivan::Minivan() : Vehicle()
 	// Intentionally left blank
 }
 
-Minivan::Minivan(std::string make, std::string model, double engine, int cylinders,
+Minivan::Minivan(const std::string make, const std::string model, double engine, int cylinders,
 		double tankSize, int cityMPG, int highwayMPG) :
 		Vehicle(make, model, engine, cylinders, tankSize, cityMPG, highwayMPG)
 {
@@ -52,5 +52,9 @@ double Minivan::getRefuelTime() const
 
 string Minivan::toString() const
 {
-	return getType() + vehicleNS::DLMTR + Vehicle::toString();
+	std::stringstream ss;
+	ss.clear();
+	ss.str("");
+	ss << std::left << std::setw(7) << getType() << vehicleNS::DLMTR << Vehicle::toString();
+	return ss.str();
 }

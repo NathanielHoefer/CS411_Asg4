@@ -7,7 +7,7 @@
     Author: Nathaniel Hoefer
     Student ID: X529U639
     Class: CS411 - Spring 2017
-	Date: 2/18/2017
+	Date: 4/18/2017
 
 ******************************************************************************/
 
@@ -16,6 +16,8 @@
 using vehicleNS::DLMTR;
 using std::string;
 using std::stringstream;
+using std::setprecision;
+using std::fixed;
 
 Vehicle::Vehicle()
 {
@@ -29,7 +31,7 @@ Vehicle::Vehicle()
 	mCurrentFuel = 	0;
 }
 
-Vehicle::Vehicle(string make, string model, double engine, int cylinders,
+Vehicle::Vehicle(const string make, const string model, double engine, int cylinders,
 			double tankSize, int cityMPG, int highwayMPG)
 {
 	mMake = 		make;
@@ -42,21 +44,21 @@ Vehicle::Vehicle(string make, string model, double engine, int cylinders,
 	mCurrentFuel = 	tankSize;
 }
 
-string 	Vehicle::getMake() 			{ return mMake; }
-string 	Vehicle::getModel()			{ return mModel; }
-double 	Vehicle::getEngine() 		{ return mEngine; }
-int 	Vehicle::getCylinderCount()	{ return mCylinderCnt; }
-double 	Vehicle::getTankSize() 		{ return mTankSize; }
-int 	Vehicle::getCityMPG() 		{ return mCityMPG; }
-int 	Vehicle::getHighwayMPG() 	{ return mHighwayMPG; }
-double 	Vehicle::getCurrentFuel() 	{ return mCurrentFuel; }
+string 	Vehicle::getMake()  const			{ return mMake; }
+string 	Vehicle::getModel()	 const			{ return mModel; }
+double 	Vehicle::getEngine()  const			{ return mEngine; }
+int 	Vehicle::getCylinderCount()	 const 	{ return mCylinderCnt; }
+double 	Vehicle::getTankSize()  const		{ return mTankSize; }
+int 	Vehicle::getCityMPG()  const		{ return mCityMPG; }
+int 	Vehicle::getHighwayMPG()  const		{ return mHighwayMPG; }
+double 	Vehicle::getCurrentFuel()  const	{ return mCurrentFuel; }
 
 string Vehicle::toString() const
 {
 	stringstream ss;
 	ss.clear();
-	ss << mMake << DLMTR << mModel << DLMTR << mEngine << DLMTR << mCylinderCnt << DLMTR;
-	ss << mTankSize << DLMTR << mCityMPG << DLMTR << mHighwayMPG << DLMTR << mCurrentFuel;
+	ss << std::left << std::setw(9) << mMake << DLMTR << std::setw(15) << mModel << DLMTR << fixed << setprecision(1) << mEngine << DLMTR << mCylinderCnt << DLMTR;
+	ss << std::right << std::setfill('0') << std::setw(4) << mTankSize << DLMTR << mCityMPG << DLMTR << mHighwayMPG << DLMTR << setprecision(4) << mCurrentFuel;
 	return ss.str();
 }
 

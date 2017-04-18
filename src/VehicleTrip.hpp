@@ -19,27 +19,32 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include <string>
+
 #include "TripLeg.hpp"
 #include "Vehicle.hpp"
 #include "TripParameters.hpp"
+#include "VehicleRecords.hpp"
 
 class VehicleTrip
 {
 public:
-	VehicleTrip(Vehicle *vehicle, TripParameters &parms);
-	VehicleTrip(VehicleTrip &trip);		// Copy constructor
+	VehicleTrip(const Vehicle *vehicle,const TripParameters &parms);
+	VehicleTrip(const VehicleTrip &trip);		// Copy constructor
 	~VehicleTrip();
 
 	// Accessors
-	TripParameters 	getParms();
-	const Vehicle *getVehicle();		// Normally wouldn't pass back pointer, but doing it for this assignment
-	double 		getFuelPurchased();
-	double 		getFuelConsumed();
-	double 		getCityMiles();
-	double 		getHighwayMiles();
-	int 		getDriveTime();
-	int 		getTripTime();
-	int 		getGStationCount();
+	TripParameters 	getParms() const;
+
+	// Returns a dynamic cloned copy of vehicle
+	Vehicle *	getVehicle() const;
+	double 		getFuelPurchased() const;
+	double 		getFuelConsumed() const;
+	double 		getCityMiles() const;
+	double 		getHighwayMiles() const;
+	int 		getDriveTime() const;
+	int 		getTripTime() const;
+	int 		getGStationCount() const;
 
 	//	Executes the trip cycle to run through every leg of the trip, calculating
 	// 		total fuel used, time taken, amount spent on gas, and number of miles
@@ -47,16 +52,23 @@ public:
 	//		Postconditions: Member variables are updated per calculations
 	void runTrip(std::vector<TripLeg> &legs);
 
-	//	Prints the formatted results of the vehicle trip to the stream
+	//	Returns the formatted results of the vehicle trip to the stream
 	//		Preconditions: Vehicle Trip must be run
 	//		Postconditions: None
-	void printTripToStream(std::ostream & stream) const;
+	void formattedTrip(std::ostream & stream) const;
+
+	//	Returns a string containing the member data of the current vehicle trip separated
+	//		by the specified delimiter constant
+	//		Preconditions: None
+	//		Postconditions: None
+	//		Returns: String containing Vehicle trip info separated by DLMTR
+	std::string toString() const;
 
 	// 	Overloaded assignment operator to properly handle the pointers
 	VehicleTrip & operator =(const VehicleTrip &rhs);
 
-	//	Overloaded << operater to stream out the following:
-	//		make << model << engineSize << engineCylinders << tanksize << cityMPG << highwayMPG
+	//	Overloaded << operater to stream out the following separated by a delimiter:
+	//		type << make << model << engineSize << engineCylinders << tanksize << cityMPG << highwayMPG
 	//		<< currentFuel << TripTime << FuelPurchase << FuelConsumed << GasStationCount
 	friend std::ostream & operator <<(std::ostream &lhs, VehicleTrip &rhs);
 

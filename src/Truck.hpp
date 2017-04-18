@@ -22,7 +22,7 @@ class Truck : public Vehicle
 {
 public:
 	Truck();
-	Truck(std::string make, std::string model, double engine, int cylinders,
+	Truck(const std::string make, const std::string model, double engine, int cylinders,
 			double tankSize, int cityMPG, int highwayMPG);
 
 	//	Copies the Truck and returns a dynamic pointer to the clone

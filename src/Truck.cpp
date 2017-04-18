@@ -27,7 +27,7 @@ Truck::Truck() : Vehicle()
 	// Intentionally left blank
 }
 
-Truck::Truck(std::string make, std::string model, double engine, int cylinders,
+Truck::Truck(const std::string make, const std::string model, double engine, int cylinders,
 		double tankSize, int cityMPG, int highwayMPG) :
 		Vehicle(make, model, engine, cylinders, tankSize, cityMPG, highwayMPG)
 {
@@ -52,5 +52,9 @@ double Truck::getRefuelTime() const
 
 string Truck::toString() const
 {
-	return getType() + vehicleNS::DLMTR + Vehicle::toString();
+	std::stringstream ss;
+	ss.clear();
+	ss.str("");
+	ss << std::left << std::setw(7) << getType() << vehicleNS::DLMTR << Vehicle::toString();
+	return ss.str();
 }

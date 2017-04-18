@@ -22,7 +22,7 @@ class Suv : public Vehicle
 {
 public:
 	Suv();
-	Suv(std::string make, std::string model, double engine, int cylinders,
+	Suv(const std::string make, const std::string model, double engine, int cylinders,
 			double tankSize, int cityMPG, int highwayMPG);
 
 	//	Copies the Suv and returns a dynamic pointer to the clone

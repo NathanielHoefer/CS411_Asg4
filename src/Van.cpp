@@ -52,5 +52,9 @@ double Van::getRefuelTime() const
 
 string Van::toString() const
 {
-	return getType() + vehicleNS::DLMTR + Vehicle::toString();
+	std::stringstream ss;
+	ss.clear();
+	ss.str("");
+	ss << std::left << std::setw(7) << getType() << vehicleNS::DLMTR << Vehicle::toString();
+	return ss.str();
 }

@@ -35,11 +35,14 @@ public:
 
 	// Imports and creates vehicle objects from the file passed
 	// 		Preconditions: File Format:
-	//			Make|Model|EngineSize|EngineCylinders|TankSize|MpgCity|MpgHighway
+	//			Car|Make|Model|EngineSize|EngineCylinders|TankSize|MpgCity|MpgHighway
  	// 			Lines beginning with '#' are treated as comments
 	//		Postconditions: None
 	// 		Returns: Array containing all of the Vehicle objects
 	static std::vector<Vehicle *> importVehicles(std::string file) throw (std::invalid_argument);
+
+	// Separates the elements within the string and places them in a vector
+	static std::vector<std::string> deserialize(const std::string &line, int elementNum, char delimeter);
 };
 
 #endif /* SRC_VEHICLERECORDS_HPP_ */

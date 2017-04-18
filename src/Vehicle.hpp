@@ -7,7 +7,7 @@
     Author: Nathaniel Hoefer
     Student ID: X529U639
     Class: CS411 - Spring 2017
-	Date: 3/11/2017
+	Date: 4/18/2017
 
 ******************************************************************************/
 
@@ -16,30 +16,32 @@
 
 #include <string>
 #include <sstream>
+#include <iomanip>
 #include "TripLeg.hpp"
 
 namespace vehicleNS
 {
-	static const std::string DLMTR = "|";
+	// Delimiter to be used within toString
+	static const std::string DLMTR = "\n";
 }
 
 class Vehicle
 {
 public:
 	Vehicle();
-	Vehicle(std::string make, std::string model, double engine, int cylinders,
+	Vehicle(const std::string make, const std::string model, double engine, int cylinders,
 			double tankSize, int cityMPG, int highwayMPG);
 	virtual ~Vehicle() {};
 
 	// Accessors
-	std::string getMake();
-	std::string getModel();
-	double 		getEngine();
-	int 		getCylinderCount();
-	double 		getTankSize();
-	int 		getCityMPG();
-	int 		getHighwayMPG();
-	double 		getCurrentFuel();
+	std::string getMake() const;
+	std::string getModel() const;
+	double 		getEngine() const;
+	int 		getCylinderCount() const;
+	double 		getTankSize() const;
+	int 		getCityMPG() const;
+	int 		getHighwayMPG() const;
+	double 		getCurrentFuel() const;
 
 	// To return a clone of the derived vehicle
 	virtual Vehicle * clone() const = 0;
@@ -72,7 +74,7 @@ public:
 	//		Preconditions: None
 	//		Postconditions: None
 	//		Returns: MPG in gallons
-	int getMPG(TripLeg::RoadType type);
+	int getMPG(TripLeg::RoadType type) ;
 
 	//	Fills the tank to full
 	//		Preconditions: None

@@ -24,7 +24,9 @@ using std::setprecision;
 using std::setfill;
 using vehicleNS::DLMTR;
 
-VehicleTrip::VehicleTrip(Vehicle *vehicle, TripParameters &parms)
+static const std::string ODLMTR = "|";
+
+VehicleTrip::VehicleTrip(const Vehicle *vehicle, const TripParameters &parms)
 {
 	mParms = 		parms;
 	mVehicle = 		vehicle->clone();
@@ -37,10 +39,15 @@ VehicleTrip::VehicleTrip(Vehicle *vehicle, TripParameters &parms)
 	mTripTime = 	0;
 }
 
-VehicleTrip::VehicleTrip(VehicleTrip &trip)
+VehicleTrip::VehicleTrip(const VehicleTrip &trip)
 {
 	mParms = trip.mParms;
-	mVehicle = 		trip.mVehicle->clone();
+
+	if (trip.mVehicle) {
+		mVehicle = trip.mVehicle->clone();
+	} else {
+		mVehicle = NULL;
+	}
 	mFuelPurchased = trip.mFuelPurchased;
 	mFuelConsumed = trip.mFuelConsumed;
 	mCityMiles = 	trip.mCityMiles;
@@ -57,15 +64,22 @@ VehicleTrip::~VehicleTrip()
 	}
 }
 
-TripParameters VehicleTrip::getParms()			{ return mParms; }
-const Vehicle *VehicleTrip::getVehicle() 			{ return mVehicle; }
-double 	VehicleTrip::getFuelPurchased() 	{ return mFuelPurchased; }
-double 	VehicleTrip::getFuelConsumed() 		{ return mFuelConsumed; }
-double 	VehicleTrip::getCityMiles() 		{ return mCityMiles; }
-double 	VehicleTrip::getHighwayMiles()		{ return mHighwayMiles; }
-int 	VehicleTrip::getDriveTime() 		{ return mDriveTime; }
-int 	VehicleTrip::getTripTime()			{ return mTripTime; }
-int 	VehicleTrip::getGStationCount() 	{ return mGStationCnt; }
+TripParameters VehicleTrip::getParms() const	{ return mParms; }
+Vehicle * VehicleTrip::getVehicle() const
+{
+	if (mVehicle) {
+		return mVehicle->clone();
+	} else {
+		return NULL;
+	}
+}
+double 	VehicleTrip::getFuelPurchased() const 	{ return mFuelPurchased; }
+double 	VehicleTrip::getFuelConsumed() const 	{ return mFuelConsumed; }
+double 	VehicleTrip::getCityMiles() const 		{ return mCityMiles; }
+double 	VehicleTrip::getHighwayMiles() const	{ return mHighwayMiles; }
+int 	VehicleTrip::getDriveTime() const 		{ return mDriveTime; }
+int 	VehicleTrip::getTripTime() const		{ return mTripTime; }
+int 	VehicleTrip::getGStationCount() const 	{ return mGStationCnt; }
 
 void VehicleTrip::runTrip(std::vector<TripLeg> &legs)
 {
@@ -151,23 +165,66 @@ void VehicleTrip::runTrip(std::vector<TripLeg> &legs)
 	mTripTime = round(mDriveTime) + refuelTime + restroomTime + sleepTime;
 }
 
-void VehicleTrip::printTripToStream(std::ostream & stream) const
+void VehicleTrip::formattedTrip(std::ostream & stream) const
 {
-	string type, make, model;
-	int cityMPG, highwayMPG;
-	double tankSize, currentFuel;
+	std::vector<std::string> elements = VehicleRecords::deserialize(toString(), 16, ODLMTR[0]);
 
-	type = mVehicle->getType() + ": ";
-	make = mVehicle->getMake();
-	model = mVehicle->getModel();
-	tankSize = mVehicle->getTankSize();
-	cityMPG = mVehicle->getCityMPG();
-	highwayMPG = mVehicle->getHighwayMPG();
-	currentFuel = mVehicle->getCurrentFuel();
+	// Assigns the elements to the following strings
+	string type = elements[0] + ": ";
+	string make = elements[1];
+	string model = elements[2];
+	string tankSize = elements[5];
+	string cityMPG = elements[6];
+	string highwayMPG = elements[7];
+	string timeMin = elements[8];
+	string timeDetail = elements[9];
+	string fuelAddedCost = elements[10];
+	string fuelConsumedCost = elements[11];
+	string currentFuel = elements[14];
 
 	// Calculations for centering title
-	int titleLen = type.size() + make.size() + model.size() + 1;
+	int titleLen = type.size() + 2 + make.size() + model.size() + 1;
 	int leftTitleSpace = (56 - titleLen) / 2;
+
+	// Formats output
+	stream << setw(leftTitleSpace) << "";
+	stream << type << make << " " << model << endl;
+	stream << "--------------------------------------------------------" << endl;
+	stream << left << fixed << setprecision(2);
+	stream << "Tank Size = " << setw(6) << tankSize;
+	stream << "gal   City MPG = " << setw(5) << cityMPG;
+	stream << "Highway MPG = " << highwayMPG << endl;
+	stream << "--------------------------------------------------------" << endl;
+	stream << "Trip time(minutes) = " << setw(7) << timeMin;
+	stream << "Trip time(d.hh:mm) = " << timeDetail << endl;
+	stream << "--------------------------------------------------------" << endl;
+	stream << left << setfill(' ');
+	stream << "Trip cost based on fuel added = $" << fuelAddedCost << endl;
+	stream << "Trip cost based on fuel used  = $" << fuelConsumedCost << endl;
+	stream << "--------------------------------------------------------" << endl;
+	stream << "Fuel added = " << setw(8) << setprecision(4) << mFuelPurchased
+			<< "gal    Fuel remaining = " << mVehicle->getCurrentFuel() << " gal" << endl;
+	stream << "Fuel used  = " << setw(8) << mFuelConsumed;
+	stream << "gal    Fuel stops     = " << mGStationCnt << endl << endl << endl;
+}
+
+std::string VehicleTrip::toString() const
+{
+	std::stringstream ss;
+	ss.str("");
+	ss.clear();
+	string output, type, make, model, time, engineSize, cylCount, tankSize, cityMPG, highwayMPG, currentFuel;
+
+	// Separates elements of vehicle (Because of the difference in order of the vehicle output vs the required
+	// vehicle trip output, the vehicle elements must be taken apart
+	ss << mVehicle->toString();
+	getline(ss, type);
+	getline(ss, make);
+	getline(ss, model);
+	ss >> engineSize >> cylCount >> tankSize >> cityMPG >> highwayMPG >> currentFuel;
+
+	ss.clear();
+	ss.str("");
 
 	// Calculations for formatted time
 	int days, hours, minutes, remainingTime;
@@ -180,29 +237,22 @@ void VehicleTrip::printTripToStream(std::ostream & stream) const
 	double fuelAddedCost = mFuelPurchased * mParms.getFuelPrice();
 	double fuelConsumedCost = mFuelConsumed * mParms.getFuelPrice();
 
-	// Formats output
-	cout << setw(leftTitleSpace) << "";
-	cout << type << make << " " << model << endl;
-	cout << "--------------------------------------------------------" << endl;
-	cout << left << fixed << setprecision(2);
-	cout << "Tank Size = " << setw(6) << tankSize;
-	cout << "gal   City MPG = " << setw(5) << cityMPG;
-	cout << "Highway MPG = " << highwayMPG << endl;;
-	cout << "--------------------------------------------------------" << endl;
-	cout << "Trip time(minutes) = " << setw(7) << mTripTime;
-	cout << "Trip time(d.hh:mm) = " << days << "." << setfill('0') << right
-			<< setw(2) << hours << ":" << setw(2) << minutes << endl;
-	cout << "--------------------------------------------------------" << endl;
-	cout << left << setfill(' ');
-	cout << "Trip cost based on fuel added = $" << fuelAddedCost << endl;
-	cout << "Trip cost based on fuel used  = $" << fuelConsumedCost << endl;
-	cout << "--------------------------------------------------------" << endl;
-	cout << "Fuel added = " << setw(8) << setprecision(4) << mFuelPurchased
-			<< "gal    Fuel remaining = " << currentFuel << " gal" << endl;
-	cout << "Fuel used  = " << setw(8) << mFuelConsumed;
-	cout << "gal    Fuel stops     = " << mGStationCnt << endl << endl << endl;
-}
+	// Formats the time and the remaining values
+	ss << mTripTime << ODLMTR;
+	ss << days << "." << setfill('0') << setw(2) << hours << ":" << setw(2) << minutes << ODLMTR;
+	ss << fixed << right << setfill('0') << setw(7) << setprecision(2) << fuelAddedCost << ODLMTR;
+	ss << setprecision(2) << setw(7) << fuelConsumedCost << ODLMTR;
+	ss << setprecision(4) << setw(9)<< mFuelPurchased << ODLMTR;
+	ss << setprecision(4) << setw(9)<< mFuelConsumed << ODLMTR;
+	ss << setprecision(4) << setw(9)<< currentFuel << ODLMTR;
+	ss << mGStationCnt;
 
+	// Form the string with all of the elements using a delimeter in between
+	output = type + ODLMTR + make + ODLMTR + model + ODLMTR + engineSize + ODLMTR + cylCount + ODLMTR +
+			tankSize + ODLMTR +	cityMPG + ODLMTR + highwayMPG + ODLMTR + ss.str();
+
+	return output;
+}
 
 VehicleTrip & VehicleTrip::operator =(const VehicleTrip &rhs)
 {
@@ -236,24 +286,7 @@ VehicleTrip & VehicleTrip::operator =(const VehicleTrip &rhs)
 
 std::ostream & operator <<(std::ostream &lhs, VehicleTrip &rhs)
 {
-	std::stringstream stream;
-
-	lhs << *rhs.mVehicle;
-	stream << rhs.mTripTime;
-	lhs << stream.str() + DLMTR;
-	stream.str("");
-	stream.clear();
-	stream << rhs.mFuelPurchased;
-	lhs << stream.str() + DLMTR;
-	stream.str("");
-	stream.clear();
-	stream << rhs.mFuelConsumed;
-	lhs << stream.str() + DLMTR;
-	stream.str("");
-	stream.clear();
-	stream << rhs.mGStationCnt;
-	lhs << stream.str();
-
+	lhs << rhs.toString();
 	return lhs;
 }
 

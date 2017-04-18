@@ -19,24 +19,6 @@
 #include <cstdlib>
 #include <stdexcept>
 
-// Constants for all default values
-static const int 	CITY_MPH = 		25;
-static const int 	HIGHWAY_MPH = 	70;
-static const double FUEL_PRICE = 	2.19;	// Per gallon
-static const double GAS_DISTANCE = 	80.0;	// Distance between gas stations
-static const int 	RESTROOM_TIME = 10;		// in minutes
-static const int 	NAP_TIME = 		15;		// in minutes
-static const int 	AWAKE_TIME = 	8;		// in hours
-
-// Constants for input .ini labels
-static const std::string CITY_MPH_LABEL = 		"MphCity";
-static const std::string HIGHWAY_MPH_LABEL = 	"MphHighway";
-static const std::string FUEL_PRICE_LABEL = 	"FuelPrice";
-static const std::string GAS_DISTANCE_LABEL = 	"DistanceBetweenGasStations";
-static const std::string AWAKE_TIME_LABEL = 	"TimeBetweenNaps";
-static const std::string RESTROOM_TIME_LABEL = 	"RestroomTime";
-static const std::string NAP_TIME_LABEL = 		"NapTime";
-
 class TripParameters
 {
 public:
@@ -68,7 +50,7 @@ public:
 	//			and lines beginning with '#' are treated as comment lines and ignored.
 	//		Postconditions: Values found in file are imported to member variables.
 	//			If the parameter is not found, the default value will be used.
-	void retrieveParms(std::string file) throw (std::invalid_argument);
+	void retrieveParms(const std::string &file) throw (std::invalid_argument);
 
 private:
 	int mCityMPH;
