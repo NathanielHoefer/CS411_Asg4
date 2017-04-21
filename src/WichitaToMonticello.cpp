@@ -21,21 +21,6 @@
     Notes: Input values have not been fully checked for values ranging far beyond
     reasonable values since it was not explicitly mentioned in the rubric.
 
-    DONE: Vehicle Virtual Destructor
-    DONE: Vehicle Abstract clone() function
-    DONE: Vehicle Abstract getType() function
-    DONE: Vehicle Abstract getRefuelTIme() function
-    DONE: Vehicle Virtual toString() function
-    DONE: Derived Class Car
-    DONE: Derived Class Suv
-    DONE: Derived Class Van
-    DONE: Derived Class Minivan
-    DONE: Derived Class Truck
-    DONE: Remove RefuelTime from WichitaToMonticell-Input.txt
-    DONE: Import vehicle list from WichitaToMonticello-Vehicles2.txt
-    TODO: Output to include vehicle type
-    TODO: Store results as sorted list in WichitaTOMonticello-Results2.txt
-    TODO: Reconfigure the printing to screen method as discussed with Dr. Schobe
 
 ******************************************************************************/
 
@@ -44,6 +29,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include "VehicleTrip.hpp"
 #include "TripLeg.hpp"
 #include "Car.hpp"
@@ -62,6 +48,7 @@ void printResults(VehicleTrip shortestTime, VehicleTrip longestTime, VehicleTrip
 				ofstream &output);
 void printVehicleStats(VehicleTrip trip);
 void printToFile(VehicleTrip &trip, ofstream &output);
+bool compareVehicleTrips(const VehicleTrip *vt1, const VehicleTrip *vt2);
 
 // File name constants
 static const string VEHICLE_FILE = "WichitaToMonticello-Vehicles2.txt";
@@ -71,31 +58,14 @@ static const string MAIN_DLMTR = "|";
 
 int main()
 {
-
-//	vector<Vehicle *> vehicles;
-//	vehicles.push_back(new Car("Make0", "Model0", 4.0, 4, 5.0, 25, 30));
-//	vehicles.push_back(new Suv("Make1", "Model1", 4.1, 4, 5.1, 26, 31));
-//	vehicles.push_back(new Van("Make2", "Model2", 4.2, 4, 5.2, 27, 32));
-//	vehicles.push_back(new Minivan("Make3", "Model3", 4.3, 4, 5.3, 28, 33));
-//	vehicles.push_back(new Truck("Make4", "Model4", 4.4, 4, 5.4, 29, 34));
-//	vehicles.push_back(vehicles[2]->clone());
-//
-//	for (int i = 0; i < (int) vehicles.size(); i++) {
-//		cout << vehicles[i]->toString() << " " << vehicles[i]->getRefuelTime() << " " << vehicles[i]->getType() << endl;
-//	}
-//	exit(0);
-
-
-
 	cout << "========================================================" << endl;
 	cout << "           Wichita to Monticello - Assignment 4         " << endl;
 	cout << "========================================================" << endl;
 
-//	tripTesting();	// Used for running test cases
-
 	vector<Vehicle *> vehicles;
 	vector<TripLeg> tripLegs = initializeTripLegs();
 	TripParameters parms;
+	vector<VehicleTrip *> vehicleTrips;
 
 	// Exits the program if vehicles or parameters are not properly imported
 	try {
@@ -112,52 +82,47 @@ int main()
 	}
 
 	// Run initial trip and initialize output stream
-	VehicleTrip initialTrip(vehicles.at(0), parms);
-	initialTrip.runTrip(tripLegs);
-
-//	stringstream ss;
-//	string s1, s2, s3;
-//	ss << initialTrip.getVehicle()->toString();
-//	ss >> s1 >> s2 >> s3;
-//	cout << s1 << endl;
-//	cout << s2 << endl;
-//	cout << s3 << endl;
-
-
-	ofstream outputStream(OUTPUT_FILE.c_str());
-	outputStream << "Type|Make|Model|EngineSize|EngineCylinders|TankSize|MpgCity|MpgHighway|Time(minutes)|Time(d.hh:mm)";
-	outputStream << "|CostFueldAdded|CostFuelUsed|FuelAdded|FuelUsed|FuelRemaining|FuelStops" << endl;
-	printToFile(initialTrip, outputStream);
-	outputStream << endl;
+	vehicleTrips.push_back(new VehicleTrip (vehicles.at(0), parms));
+	vehicleTrips[0]->runTrip(tripLegs);
 
 	// Initializes records
-	VehicleTrip shortestTime = 	initialTrip;
-	VehicleTrip longestTime = 	initialTrip;
-	VehicleTrip leastFuelAdded = initialTrip;
-	VehicleTrip mostFuelAdded = initialTrip;
-	VehicleTrip leastFuelUsed = initialTrip;
-	VehicleTrip mostFuelUsed = 	initialTrip;
+	VehicleTrip shortestTime = 	*vehicleTrips[0];
+	VehicleTrip longestTime = 	*vehicleTrips[0];
+	VehicleTrip leastFuelAdded = *vehicleTrips[0];
+	VehicleTrip mostFuelAdded = *vehicleTrips[0];
+	VehicleTrip leastFuelUsed = *vehicleTrips[0];
+	VehicleTrip mostFuelUsed = 	*vehicleTrips[0];
 
-	// Process each vehicle trip
+	// Process each vehicle trip and determine the results
 	for (int i = 1; i < (int)vehicles.size(); i++) {
-		VehicleTrip trip(vehicles.at(i), parms);
-		trip.runTrip(tripLegs);
-		printToFile(trip, outputStream);
-		outputStream << endl;
+		vehicleTrips.push_back(new VehicleTrip(vehicles.at(i), parms));
+		vehicleTrips[i]->runTrip(tripLegs);
 
-		// Updates records
-		if (trip.getTripTime() < shortestTime.getTripTime())
-			shortestTime = trip;
-		if (trip.getTripTime() > longestTime.getTripTime())
-			longestTime = trip;
-		if (trip.getFuelPurchased() < leastFuelAdded.getFuelPurchased())
-			leastFuelAdded = trip;
-		if (trip.getFuelPurchased() > mostFuelAdded.getFuelPurchased())
-			mostFuelAdded = trip;
-		if (trip.getFuelConsumed() < leastFuelUsed.getFuelConsumed())
-			leastFuelUsed = trip;
-		if (trip.getFuelConsumed() > mostFuelUsed.getFuelConsumed())
-			mostFuelUsed = trip;
+		// Updates results
+		if (vehicleTrips[i]->getTripTime() < shortestTime.getTripTime())
+			shortestTime = *vehicleTrips[i];
+		if (vehicleTrips[i]->getTripTime() > longestTime.getTripTime())
+			longestTime = *vehicleTrips[i];
+		if (vehicleTrips[i]->getFuelPurchased() < leastFuelAdded.getFuelPurchased())
+			leastFuelAdded = *vehicleTrips[i];
+		if (vehicleTrips[i]->getFuelPurchased() > mostFuelAdded.getFuelPurchased())
+			mostFuelAdded = *vehicleTrips[i];
+		if (vehicleTrips[i]->getFuelConsumed() < leastFuelUsed.getFuelConsumed())
+			leastFuelUsed = *vehicleTrips[i];
+		if (vehicleTrips[i]->getFuelConsumed() > mostFuelUsed.getFuelConsumed())
+			mostFuelUsed = *vehicleTrips[i];
+	}
+
+	// Open output file and print the header
+	ofstream outputStream(OUTPUT_FILE.c_str());
+	outputStream << "Type|Make|Model|EngineSize|EngineCylinders|TankSize|MpgCity|MpgHighway|Time(minutes)|Time(d.hh:mm)";
+	outputStream << "|CostFueldAdded|CostFuelUsed|FuelAdded|FuelUsed|FuelRemaining|FuelStops" << endl << endl;
+
+	// Sort and print each vehicle trip
+	std::sort(vehicleTrips.begin(), vehicleTrips.end(), compareVehicleTrips);
+	for (int i = 0; i < (int) vehicleTrips.size(); i++) {
+		printToFile(*vehicleTrips[i], outputStream);
+		outputStream << endl;
 	}
 
 	// Print the formatted results
@@ -360,59 +325,10 @@ void printToFile(VehicleTrip &trip, ofstream &output)
 	string temp;
 
 	output << trip;
+}
 
-//	string make, model;
-//	int engineCylinders, cityMPG, highwayMPG, tripTime, gStationCnt;
-//	double engineSize, tankSize, currentFuel, fuelPurchased, fuelConsumed;
-//
-//	// Parses the results from stream
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	make = temp;
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	model = temp;
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	engineSize = atof(temp.c_str());
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	engineCylinders = atoi(temp.c_str());
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	tankSize = atof(temp.c_str());
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	cityMPG = atoi(temp.c_str());
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	highwayMPG = atoi(temp.c_str());
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	currentFuel = atof(temp.c_str());
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	tripTime = atoi(temp.c_str());
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	fuelPurchased = atof(temp.c_str());
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	fuelConsumed = atof(temp.c_str());
-//	getline(results, temp, MAIN_DLMTR[0]);
-//	gStationCnt = atoi(temp.c_str());
-//
-//	// Calculations for formatted time
-//	int days, hours, minutes, remainingTime;
-//	remainingTime = tripTime;
-//	days = tripTime / (24 * 60);
-//	remainingTime = tripTime % (24 * 60);
-//	hours = remainingTime / 60;
-//	minutes = remainingTime % 60;
-//
-//	double fuelAddedCost = fuelPurchased * trip.getParms().getFuelPrice();
-//	double fuelConsumedCost = fuelConsumed * trip.getParms().getFuelPrice();
-//
-//	// Format:
-//	//	Make|Model|EngineSize|EngineCylinders|TankSize|MpgCity|MpgHighway|Time(minutes)|Time(d.hh:mm)|
-//	//	CostFueldAdded|CostFuelUsed|FuelAdded|FuelUsed|FuelRemaining|FuelStops
-//	output << left << setfill(' ') << setw(9) << make << MAIN_DLMTR << setw(15) << model << MAIN_DLMTR;
-//	output << right << fixed << setfill('0') << setw(4) << setprecision(1) << engineSize << MAIN_DLMTR;
-//	output << engineCylinders << MAIN_DLMTR;
-//	output << setw(4) << tankSize << MAIN_DLMTR;
-//	output << setw(2) << cityMPG << MAIN_DLMTR << setw(2) << highwayMPG << MAIN_DLMTR;
-//	output << setw(4) << tripTime << MAIN_DLMTR;
-//	output << days << "." << setfill('0') << right << setw(2) << hours << ":" << setw(2) << minutes << MAIN_DLMTR;
-//	output << setprecision(2) << setw(7) << fuelAddedCost << MAIN_DLMTR << setw(7) << fuelConsumedCost << MAIN_DLMTR;
-//	output << setprecision(4) << setw(9) << fuelPurchased << MAIN_DLMTR << fuelConsumed << MAIN_DLMTR << setw(9);
-//	output << setw(9) << currentFuel << MAIN_DLMTR << setw(2) << gStationCnt;
+// Compares the current fuel of two vehicle trips
+bool compareVehicleTrips(const VehicleTrip *vt1, const VehicleTrip *vt2)
+{
+	return vt1->getVehicle()->getCurrentFuel() < vt2->getVehicle()->getCurrentFuel();
 }

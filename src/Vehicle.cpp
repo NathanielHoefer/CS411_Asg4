@@ -58,7 +58,8 @@ string Vehicle::toString() const
 	stringstream ss;
 	ss.clear();
 	ss << std::left << std::setw(9) << mMake << DLMTR << std::setw(15) << mModel << DLMTR << fixed << setprecision(1) << mEngine << DLMTR << mCylinderCnt << DLMTR;
-	ss << std::right << std::setfill('0') << std::setw(4) << mTankSize << DLMTR << mCityMPG << DLMTR << mHighwayMPG << DLMTR << setprecision(4) << mCurrentFuel;
+	ss << std::right << std::setfill('0') << std::setw(4) << mTankSize << DLMTR
+			<< std::setfill('0') << std::setw(2) << mCityMPG << DLMTR << mHighwayMPG << DLMTR << setprecision(4) << mCurrentFuel;
 	return ss.str();
 }
 

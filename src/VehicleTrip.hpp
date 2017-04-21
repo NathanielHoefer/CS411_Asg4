@@ -67,6 +67,9 @@ public:
 	// 	Overloaded assignment operator to properly handle the pointers
 	VehicleTrip & operator =(const VehicleTrip &rhs);
 
+	//	Compares vehicle trips based on the fuel remaining
+	bool operator <(const VehicleTrip *rhs) const;
+
 	//	Overloaded << operater to stream out the following separated by a delimiter:
 	//		type << make << model << engineSize << engineCylinders << tanksize << cityMPG << highwayMPG
 	//		<< currentFuel << TripTime << FuelPurchase << FuelConsumed << GasStationCount

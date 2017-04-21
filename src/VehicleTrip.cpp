@@ -73,6 +73,7 @@ Vehicle * VehicleTrip::getVehicle() const
 		return NULL;
 	}
 }
+
 double 	VehicleTrip::getFuelPurchased() const 	{ return mFuelPurchased; }
 double 	VehicleTrip::getFuelConsumed() const 	{ return mFuelConsumed; }
 double 	VehicleTrip::getCityMiles() const 		{ return mCityMiles; }
@@ -240,7 +241,7 @@ std::string VehicleTrip::toString() const
 	// Formats the time and the remaining values
 	ss << mTripTime << ODLMTR;
 	ss << days << "." << setfill('0') << setw(2) << hours << ":" << setw(2) << minutes << ODLMTR;
-	ss << fixed << right << setfill('0') << setw(7) << setprecision(2) << fuelAddedCost << ODLMTR;
+	ss << fixed << right << setfill(' ') << setw(7) << setprecision(2) << fuelAddedCost << ODLMTR;
 	ss << setprecision(2) << setw(7) << fuelConsumedCost << ODLMTR;
 	ss << setprecision(4) << setw(9)<< mFuelPurchased << ODLMTR;
 	ss << setprecision(4) << setw(9)<< mFuelConsumed << ODLMTR;
@@ -282,6 +283,11 @@ VehicleTrip & VehicleTrip::operator =(const VehicleTrip &rhs)
 	mTripTime = rhs.mTripTime;
 	mGStationCnt = rhs.mGStationCnt;
 	return *this;
+}
+
+bool VehicleTrip::operator <(const VehicleTrip *rhs) const
+{
+	return (this->mVehicle->getCurrentFuel() < rhs->mVehicle->getCurrentFuel());
 }
 
 std::ostream & operator <<(std::ostream &lhs, VehicleTrip &rhs)
