@@ -14,12 +14,16 @@
     fuel purchased, and require the least/most consumed. This program imports both
     the vehicles and the parameters from the string constants provided at the
     beginning of this file. The results are printed to the console as well as to
-    the file specified by the string constant OUTPUT_FILE. Helper functions and
-    Test drivers were moved to separate files in order to clean this file. The
-    vehicles are now stored as dynamic pointers in a vector.
+    the file specified by the string constant OUTPUT_FILE. The results in the file
+    are also sorted by fuel remaining. The vehicles are now stored as dynamic pointers
+    in a vector.
 
     Notes: Input values have not been fully checked for values ranging far beyond
     reasonable values since it was not explicitly mentioned in the rubric.
+
+    If there is extra time, move fuelRemaining from Vehicle to VehicleTrip since
+    it makes more sense there and that would make the vehicleTrip toString funct
+    shorter.
 
 
 ******************************************************************************/
@@ -128,6 +132,8 @@ int main()
 	// Print the formatted results
 	printResults(shortestTime, longestTime, leastFuelAdded, mostFuelAdded,
 			leastFuelUsed, mostFuelUsed, outputStream);
+
+	outputStream.close();
 }
 
 // Creates trip leg objects for the trip from Wichita to Monticello
@@ -328,6 +334,7 @@ void printToFile(VehicleTrip &trip, ofstream &output)
 }
 
 // Compares the current fuel of two vehicle trips
+//		Returns: True if vt1 is less that vt2
 bool compareVehicleTrips(const VehicleTrip *vt1, const VehicleTrip *vt2)
 {
 	return vt1->getVehicle()->getCurrentFuel() < vt2->getVehicle()->getCurrentFuel();

@@ -110,10 +110,6 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 
 		// Check to see if it is a comment line
 		if (line[0] != '#' && !line.empty()) {
-
-			// Element within vehicle records line
-			int element = 0;
-
 			std::vector<std::string> lineElements = deserialize(line, 8, DLMTR[0]);
 
 			// Parse vehicle type
@@ -180,6 +176,7 @@ std::vector<Vehicle *> VehicleRecords::importVehicles(std::string file) throw (s
 		std::string exc = "ERROR - Vehicle Import: File \"" + file + "\" does not contain any vehicle records";
 		throw std::invalid_argument(exc);
 	}
+	stream.close();
 	return vehicles;
 }
 

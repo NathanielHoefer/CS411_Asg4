@@ -179,4 +179,5 @@ void TripParameters::retrieveParms(const std::string &file) throw (std::invalid_
 		}
 		lineNum++;
 	}
+	stream.close();
 }
